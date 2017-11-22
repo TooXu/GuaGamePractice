@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>打砖块游戏</title>
+  <style media="screen">
+  canvas {
+    border: 1px dotted #000;
+  }
+  </style>
+
+
+</head>
+<body>
+<canvas id="canvas"  width="500" height="500" ></canvas>
+<script>
+
+    var paddleX = 50
+    var paddleY = 350
+
+    var speed = 5;
+
+    var moveLeft = false
+    var moveRight = false
+
+    var ctx = document.getElementById('canvas').getContext('2d');
+    var paddleImg = new Image();
+    paddleImg.onload = function(){
+        ctx.drawImage(paddleImg,paddleX,paddleY)
+    }
+    paddleImg.src = 'paddle.png';
+    var ballImg = new Image();
+    ballImg.onload = function(){
+        ctx.drawImage(ballImg,paddleX,paddleY)
+    }
+    ballImg.src = 'ball.png';
+
+    window.addEventListener('keydown',function (keydownEvent) {
+        console.log(keydownEvent.key);
+        if(keydownEvent.key === 'a'){
+          moveLeft = true;
+        }else if (keydownEvent.key === 'd'){
+          moveRight = true;
+        }
+    })
+    window.addEventListener('keyup',function(keyupEvent){
+        console.log(keyupEvent.key);
+        if(keyupEvent.key === 'a'){
+            moveLeft = false
+        }else if (keyupEvent.key === 'd'){
+            moveRight = false
+        }
+    })
+
+    setInterval(function(){
+      if (moveLeft) {
+        paddleX -= speed
+      }else if (moveRight) {
+        paddleX += speed
+      }
+      if (paddleX <= 0) {
+        paddleX = 0
+      }else if (paddleX + paddleImg.width >= canvas.width) {
+        paddleX = canvas.width - paddleImg.width
+      }
+      ctx.clearRect(0,0,canvas.width,canvas.height)
+      ctx.drawImage(paddleImg,paddleX,paddleY);
+    }, 1000 / 60)
+
+
+</script>
+</body>
+</html>
